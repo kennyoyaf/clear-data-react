@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
+import { data } from "./data";
 
 function App() {
+  const [people, setPeople] = useState(data);
+
+  const removeItem = (id) => {
+    let newPeople = people.filter((person) => person.id !== id);
+    setPeople(newPeople);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {people.map((person) => {
+        const { id, name } = person;
+        return (
+          <div key={id} className="items">
+            <h4>{name}</h4>
+            <button className="remove" onClick={() => removeItem(id)}>
+              remove
+            </button>
+          </div>
+        );
+      })}
+      <div className="btn">
+        <button onClick={() => setPeople([])} className="clear">
+          Clear Items
+        </button>
+      </div>
+    </>
   );
 }
 
